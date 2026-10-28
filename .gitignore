@@ -1,0 +1,29 @@
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Common build and cache output (refine after choosing a stack)
+build/
+dist/
+out/
+coverage/
+.cache/
+__pycache__/
+*.py[cod]
+node_modules/
+target/
+
+# Local research artifacts; commit only sanitized notes intended for sharing
+*.pcap
+*.pcapng
