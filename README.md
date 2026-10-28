@@ -1,73 +1,69 @@
+<div align="center">
+
 # VISUALIZE
 
-> Project name. Product scope is still being researched.
+### See what your system is connected to.
 
-**A Linux desktop tool for seeing the network connections associated with a system and, eventually, managing selected connections through a clear visual interface.**
+**A Linux desktop project for exploring network connections visually, with the long-term goal of managing selected connections from the same view.**
 
-The project starts with research and product definition. It will not change network traffic until the behavior, permissions, and recovery paths have been designed and reviewed.
+![Work in progress](https://img.shields.io/badge/status-work%20in%20progress-f0ad4e?style=for-the-badge)
+![Linux](https://img.shields.io/badge/target-Linux-5577cc?style=for-the-badge&logo=linux&logoColor=white)
 
-## Project description
+## 🚧 Work is underway — coming soon
 
-Network activity is often shown as text, counters, or process lists. This project explores a visual way to understand which connections are active on a Linux system, where they lead, and which local applications or services are associated with them. The longer-term goal is to let a user deliberately disconnect or restrict a selected connection from that view.
+We’re researching the problem and shaping the first prototype. **There’s no app or download yet.** We’ll share a preview once the scope and visual approach are ready.
 
-The first research pass will define what counts as a connection, which kinds of traffic are in scope, how process and endpoint information can be collected, and what “disconnect” should do. Those decisions will shape the interface and implementation. Until then, this repository is a planning and research foundation, not a working network controller.
+</div>
 
-## Current status
+---
 
-**Stage 0 — project framing and research planning.** No network data is collected or changed by this project yet. See [the research plan](docs/RESEARCH_PLAN.md) and [the roadmap](docs/ROADMAP.md).
+## The idea
+
+Network activity can be difficult to understand when it is spread across process lists and command-line tools. VISUALIZE aims to bring that activity into one approachable desktop view, helping people explore what their Linux system is connected to.
+
+The intended direction includes showing connection details and, in a future version, letting a user deliberately disconnect selected activity. The exact meaning and scope of “disconnect” is still being researched.
+
+## Project status
+
+| Stage | Status |
+| --- | --- |
+| Research and product scope | **In progress** |
+| Visual prototype | Next |
+| Read-only connection view | Planned |
+| Carefully scoped connection controls | Planned |
+
+Follow the [research plan](docs/RESEARCH_PLAN.md), [roadmap](docs/ROADMAP.md), and [initial findings](docs/research/INITIAL_FINDINGS.md).
 
 ## Product principles
 
 - Make active connections understandable at a glance, with details available when needed.
-- Show enough context to identify a connection, such as direction, endpoint, owning process when available, and current state.
+- Show useful context such as direction, endpoint, owning process when available, and current state.
 - Keep observation separate from control. Viewing data should not modify network behavior.
-- Make any future disconnect or restriction action explicit, scoped, and reversible where possible.
+- Make future disconnect or restriction actions explicit, scoped, and reversible where possible.
 - Explain permission requirements and the effect of an action before it happens.
 - Treat missing, stale, or unavailable system information as unknown rather than guessing.
-- Prefer a useful, accessible interface over a dense network-analyst-only display.
+- Make the interface accessible to people beyond network specialists.
 
-## Scope to investigate
+## Scope under research
 
 - Linux desktop as the initial target.
-- System-associated connections, including inbound and outbound activity; exact scope is a research decision.
-- Mapping connections to processes and services, including how to represent cases where ownership cannot be determined.
+- Inbound and outbound system-associated connections; exact scope is still open.
+- How connections map to processes and services, including cases where ownership is unknown.
 - Visual exploration, filtering, and connection details.
-- Possible controls for ending or restricting selected activity, with a clear distinction between those actions.
-- Permission boundaries, failure handling, auditability, and recovery.
+- Safe and clear control behavior, permissions, failure handling, and recovery.
 
 ## Development approach
 
-Work proceeds through evidence-backed stages. Each stage should leave a written result, decisions, and open questions before the next stage is treated as settled. See [Research plan](docs/RESEARCH_PLAN.md) for the questions and evidence to gather, and [Roadmap](docs/ROADMAP.md) for the proposed sequence of deliverables.
+Work proceeds through evidence-backed stages. Each stage should document findings, decisions, and open questions before the next stage is treated as settled. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose research and implementation changes.
 
-### Initial development practices
+## Follow along
 
-- Keep research notes and decisions in `docs/` so design choices are traceable.
-- Record unresolved questions instead of quietly turning assumptions into requirements.
-- Keep changes focused and reviewable; use branches and pull requests when collaborating.
-- Add tests and automated checks when implementation begins, based on the chosen stack.
-- Do not run privileged commands or alter host networking as part of ordinary development.
+Star or watch the repository for updates. **VISUALIZE is coming soon.**
 
-## Repository layout
+---
 
-```text
-.
-├── README.md
-├── CONTRIBUTING.md
-├── SECURITY.md
-├── .gitignore
-└── docs/
-    ├── RESEARCH_PLAN.md
-    └── ROADMAP.md
-```
+<div align="center">
 
-## Contributing
+*Project in progress · Linux desktop · Preview to come*
 
-The project is in its planning stage. Read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing changes. Research findings should include the question, sources or evidence, conclusion, confidence, and remaining uncertainty. Do not include private network data, credentials, or identifying packet captures in the repository.
-
-## Security
-
-Security and permission design are core research topics because future versions may interact with host networking. Please see [SECURITY.md](SECURITY.md) for the current reporting guidance and project boundary.
-
-## License
-
-No license has been selected yet. Until one is added, reuse and redistribution are not granted by this repository.
+</div>
