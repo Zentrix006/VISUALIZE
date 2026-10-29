@@ -2,7 +2,7 @@
 
 > Project name. Product scope is still being researched.
 
-**A Linux desktop tool for seeing the network connections associated with a system and, eventually, managing selected connections through a clear visual interface.**
+**A Linux desktop tool for visualizing the system's live outbound internet connections and, eventually, managing selected connections through a clear visual interface.**
 
 The project starts with research and product definition. It will not change network traffic until the behavior, permissions, and recovery paths have been designed and reviewed.
 
@@ -29,7 +29,9 @@ The first research pass will define what counts as a connection, which kinds of 
 ## Scope to investigate
 
 - Linux desktop as the initial target.
-- System-associated connections, including inbound and outbound activity; exact scope is a research decision.
+- A graph centered on the local system, with dynamic links for outbound connections and remote service nodes.
+- Selecting a remote node should reveal service details and its location, subject to research into available and approximate location data.
+- Inbound connections may be considered separately; they are not part of the currently described first view.
 - Mapping connections to processes and services, including how to represent cases where ownership cannot be determined.
 - Visual exploration, filtering, and connection details.
 - Possible controls for ending or restricting selected activity, with a clear distinction between those actions.
