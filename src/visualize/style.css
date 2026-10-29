@@ -131,7 +131,6 @@ window,
   border: 1px solid transparent;
   border-radius: 9px;
   background: transparent;
-  text-align: left;
 }
 
 .connection-row:hover {
@@ -328,6 +327,5 @@ window,
 
 .action-note {
   margin-top: 8px;
-  text-align: center;
   letter-spacing: 0.2px;
 }

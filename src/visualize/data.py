@@ -73,7 +73,7 @@ CONNECTIONS = [
         "id": "telemetry",
         "app": "Code Editor",
         "service": "Extension Registry",
-        "domain": "extensions.example.dev",
+        "domain": "extensions.example.com",
         "address": "198.51.100.204:443",
         "protocol": "HTTPS · TCP",
         "location": "Portland, Oregon, US",

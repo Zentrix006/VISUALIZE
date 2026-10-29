@@ -6,6 +6,7 @@ import sys
 import gi
 
 gi.require_version("Gtk", "4.0")
+gi.require_version("Gdk", "4.0")
 from gi.repository import Gdk, Gtk
 
 from .data import CONNECTIONS
@@ -221,7 +222,7 @@ class VisualizeWindow(Gtk.ApplicationWindow):
         self.action_button.add_css_class("simulate-button")
         self.action_button.connect("clicked", self.simulate_disconnect)
         panel.append(self.action_button)
-        panel.append(make_label("Demo action only · no firewall rules are changed", "action-note", 0))
+        panel.append(make_label("Demo action only · no firewall rules are changed", "action-note", 0.5))
         return panel
 
     def refresh_connection_list(self):

@@ -76,6 +76,12 @@ PYTHONPATH=src python3 -m visualize
 
 All displayed connections, traffic values, and locations are sample data. The **Simulate disconnect** button only changes the preview state.
 
+Run the current unit tests in a headless session with:
+
+```sh
+xvfb-run -a env PYTHONPATH=src /usr/bin/python3 -m unittest discover -s tests -v
+```
+
 ---
 
 <div align="center">
