@@ -2,7 +2,7 @@
 
 import math
 
-from gi.repository import GLib, Gtk
+from gi.repository import Gdk, GLib, Gtk
 
 
 BG = (0.035, 0.055, 0.075)
@@ -29,6 +29,7 @@ class MapView(Gtk.DrawingArea):
         self.set_draw_func(self.draw)
 
         click = Gtk.GestureClick.new()
+        click.set_button(0)
         click.connect("released", self.handle_click)
         self.add_controller(click)
 
@@ -84,7 +85,7 @@ class MapView(Gtk.DrawingArea):
                 self.draw_node(cr, self.point_for(connection, width, height), connection)
         self.draw_system(cr, center)
 
-        self.text(cr, "OUTBOUND CONNECTIONS", 24, 30, 10, MUTED, True)
+        self.text(cr, "INCOMING + OUTGOING", 24, 30, 10, MUTED, True)
         self.text(cr, "DEMO DATA · SIMULATED", width - 174, 30, 10, GREEN, True)
 
     def draw_grid(self, cr, width, height):
@@ -132,6 +133,8 @@ class MapView(Gtk.DrawingArea):
         cr.stroke()
 
         t = (self.phase + index * 0.17) % 1.0
+        if connection.get("direction") == "Incoming":
+            t = 1 - t
         particle = self.bezier_point(start, p1, p2, end, t)
         cr.arc(*particle, 2.5 if selected else 1.8, 0, math.tau)
         cr.set_source_rgba(*WHITE, 0.94)
@@ -189,6 +192,20 @@ class MapView(Gtk.DrawingArea):
                 self.selected_id = connection["id"]
                 self.on_select(connection)
                 self.queue_draw()
+                if _gesture and _gesture.get_current_button() == 3:
+                    popover = Gtk.Popover()
+                    popover.set_parent(self)
+                    rect = Gdk.Rectangle()
+                    rect.x, rect.y, rect.width, rect.height = int(x), int(y), 1, 1
+                    popover.set_pointing_to(rect)
+                    action = Gtk.Button(label="Block all access for " + connection["app"] + " (demo)")
+                    def activate(_button):
+                        self.on_block(None)
+                        popover.popdown()
+                    action.connect("clicked", activate)
+                    popover.set_child(action)
+                    popover.connect("closed", lambda widget: widget.unparent())
+                    popover.popup()
                 return
 
     def handle_motion(self, _controller, x, y):

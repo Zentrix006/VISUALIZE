@@ -22,7 +22,10 @@ class PreviewInteractionTests(unittest.TestCase):
             self.assertEqual(window.service_domain.get_text(), connection["domain"])
             self.assertEqual(window.location_value.get_text().split("  ·")[0], connection["location"])
 
+            sibling = dict(connection, id="another-session")
+            window.connections.append(sibling)
             window.simulate_disconnect(None)
+            self.assertEqual(sibling["state"], "Ended (demo)")
             self.assertEqual(connection["state"], "Ended (demo)")
             self.assertEqual(window.service_state.get_text(), "●  ENDED (DEMO)")
 

@@ -2,15 +2,17 @@
 
 from pathlib import Path
 import sys
+import subprocess
 
 import gi
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Gdk", "4.0")
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, GLib, Gtk
 
 from .data import CONNECTIONS
 from .map_view import MapView
+from .compact import CompactWindow
 
 
 CSS = Path(__file__).with_name("style.css")
@@ -28,6 +30,7 @@ class VisualizeWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title="VISUALIZE")
         self.set_default_size(1440, 900)
+        self.set_hide_on_close(True)
         self.set_size_request(1050, 680)
         self.connections = [dict(item) for item in CONNECTIONS]
         self.selected = self.connections[0]
@@ -92,6 +95,9 @@ class VisualizeWindow(Gtk.ApplicationWindow):
             button.add_css_class("rail-button")
             if active:
                 button.add_css_class("rail-button-active")
+            else:
+                button.set_sensitive(False)
+                button.set_tooltip_text(tip + " — coming later")
             rail.append(button)
         spacer = Gtk.Box()
         spacer.set_vexpand(True)
@@ -110,7 +116,7 @@ class VisualizeWindow(Gtk.ApplicationWindow):
         self.connection_count = make_label("06", "count-chip")
         heading.append(self.connection_count)
         sidebar.append(heading)
-        sidebar.append(make_label("OUTBOUND · LIVE VIEW", "section-subtitle", 0))
+        sidebar.append(make_label("INCOMING + OUTGOING · PREVIEW", "section-subtitle", 0))
 
         self.connection_list = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
         self.connection_list.set_margin_top(14)
@@ -137,7 +143,7 @@ class VisualizeWindow(Gtk.ApplicationWindow):
         toolbar.add_css_class("map-toolbar")
         title_group = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=3)
         title_group.append(make_label("SYSTEM MAP", "map-title", 0))
-        title_group.append(make_label("Your system at the center of its outbound activity", "map-subtitle", 0))
+        title_group.append(make_label("Incoming and outgoing connections around your system", "map-subtitle", 0))
         toolbar.append(title_group)
         spacer = Gtk.Box()
         spacer.set_hexpand(True)
@@ -149,6 +155,7 @@ class VisualizeWindow(Gtk.ApplicationWindow):
         map_frame = Gtk.Frame()
         map_frame.add_css_class("map-frame")
         self.map_view = MapView(self.connections, self.select_connection)
+        self.map_view.on_block = self.simulate_disconnect
         map_frame.set_child(self.map_view)
         map_frame.set_hexpand(True)
         map_frame.set_vexpand(True)
@@ -218,7 +225,7 @@ class VisualizeWindow(Gtk.ApplicationWindow):
         spacer.set_vexpand(True)
         panel.append(spacer)
 
-        self.action_button = Gtk.Button(label="Simulate disconnect")
+        self.action_button = Gtk.Button(label="Block app (demo)")
         self.action_button.add_css_class("simulate-button")
         self.action_button.connect("clicked", self.simulate_disconnect)
         panel.append(self.action_button)
@@ -289,23 +296,24 @@ class VisualizeWindow(Gtk.ApplicationWindow):
             next_child = child.get_next_sibling()
             self.detail_rows.remove(child)
             child = next_child
+        self.add_detail_row("Direction", item.get("direction", "Outgoing"))
         self.add_detail_row("Application", item["app"])
         self.add_detail_row("Remote address", item["address"])
         self.add_detail_row("Protocol", item["protocol"])
         self.add_detail_row("Latency", item["latency"])
 
         if item["state"] == "Active":
-            self.action_button.set_label("Simulate disconnect")
+            self.action_button.set_label("Block app (demo)")
             self.action_button.set_sensitive(True)
         else:
-            self.action_button.set_label("Reconnect in demo")
+            self.action_button.set_label("Unblock app (demo)")
             self.action_button.set_sensitive(True)
 
     def simulate_disconnect(self, _button):
-        if self.selected["state"] == "Active":
-            self.selected["state"] = "Ended (demo)"
-        else:
-            self.selected["state"] = "Active"
+        state = "Ended (demo)" if self.selected["state"] == "Active" else "Active"
+        for connection in self.connections:
+            if connection["app"] == self.selected["app"]:
+                connection["state"] = state
         self.refresh_details()
         self.refresh_connection_list()
         self.map_view.queue_draw()
@@ -316,10 +324,34 @@ class VisualizeApp(Gtk.Application):
         super().__init__(application_id="dev.visualize.NetworkMap")
 
     def do_activate(self):
-        window = self.props.active_window
-        if not window:
-            window = VisualizeWindow(self)
-        window.present()
+        if not hasattr(self, "full_window"):
+            self.full_window = VisualizeWindow(self)
+            self.compact_window = CompactWindow(self, self.full_window)
+            self.tray = subprocess.Popen(
+                [sys.executable, "-m", "visualize.tray"], stdout=subprocess.PIPE,
+                text=True,
+            )
+            GLib.io_add_watch(self.tray.stdout, GLib.IO_IN | GLib.IO_HUP, self.tray_command)
+            self.connect("shutdown", self.stop_tray)
+        self.compact_window.refresh()
+        self.compact_window.present()
+
+    def tray_command(self, stream, condition):
+        if condition & GLib.IO_HUP:
+            return False
+        command = stream.readline().strip()
+        if command == "quit":
+            self.quit()
+        elif command == "expand":
+            self.full_window.present()
+        else:
+            self.compact_window.refresh()
+            self.compact_window.present()
+        return True
+
+    def stop_tray(self, _app):
+        if self.tray.poll() is None:
+            self.tray.terminate()
 
 
 def main():

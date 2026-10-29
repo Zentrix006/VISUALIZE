@@ -65,7 +65,7 @@ Star or watch the repository for updates. **VISUALIZE is coming soon.**
 The prototype requires Linux, Python 3, GTK 4, PyGObject, and PyCairo. On Debian or Ubuntu, install the system packages first:
 
 ```sh
-sudo apt install python3 python3-gi python3-cairo gir1.2-gtk-4.0
+sudo apt install python3 python3-gi python3-cairo gir1.2-gtk-4.0 gir1.2-gtk-3.0
 ```
 
 Then run it from the repository root:
@@ -89,3 +89,9 @@ xvfb-run -a env PYTHONPATH=src /usr/bin/python3 -m unittest discover -s tests -v
 *Project in progress · Linux desktop · Preview to come*
 
 </div>
+
+## Tray preview on Xfce
+
+The app starts with a compact connection panel. The tray icon opens that panel; **Open network map** expands it. Right-click an active node to simulate blocking every connection belonging to its app. Incoming and outgoing sample flows are shown. Tray placement is controlled by the Xfce panel configuration. GTK3 is used in a separate process for the legacy tray icon.
+
+Real network collection, measured speeds, and app-wide firewall enforcement are still pending. The current actions only affect sample data.

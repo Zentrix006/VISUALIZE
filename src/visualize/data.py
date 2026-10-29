@@ -102,3 +102,7 @@ CONNECTIONS = [
         "position": (0.32, 0.76),
     },
 ]
+
+# Demonstrate both directions in the preview.
+for connection in CONNECTIONS:
+    connection["direction"] = "Incoming" if connection["id"] == "sync" else "Outgoing"
