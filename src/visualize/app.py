@@ -20,7 +20,7 @@ CSS = Path(__file__).with_name("style.css")
 
 def make_label(text, css_class=None, xalign=0):
     label = Gtk.Label(label=text, xalign=xalign)
-    label.set_wrap(True)
+    label.set_wrap(False)
     if css_class:
         label.add_css_class(css_class)
     return label
@@ -42,6 +42,9 @@ class VisualizeWindow(Gtk.ApplicationWindow):
         self.refresh_connection_list()
 
     def install_css(self):
+        settings = Gtk.Settings.get_default()
+        settings.set_property("gtk-theme-name", "Adwaita")
+        settings.set_property("gtk-application-prefer-dark-theme", True)
         provider = Gtk.CssProvider()
         provider.load_from_path(str(CSS))
         display = Gdk.Display.get_default()
@@ -57,14 +60,17 @@ class VisualizeWindow(Gtk.ApplicationWindow):
 
         brand = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         mark = make_label("V", "brand-mark")
+        mark.set_valign(Gtk.Align.CENTER)
         brand.append(mark)
         wordmark = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         wordmark.append(make_label("VISUALIZE", "brand-name", 0))
         wordmark.append(make_label("NETWORK MAP", "brand-caption", 0))
         brand.append(wordmark)
-        header.set_title_widget(brand)
+        header.pack_start(brand)
+        header.set_title_widget(Gtk.Label(label=""))
 
         status = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        status.set_valign(Gtk.Align.CENTER)
         status.append(make_label("●", "status-dot"))
         status.append(make_label("PREVIEW MODE", "status-text"))
         status.append(make_label("·", "status-separator"))
@@ -109,6 +115,7 @@ class VisualizeWindow(Gtk.ApplicationWindow):
         sidebar = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         sidebar.set_size_request(236, -1)
         sidebar.add_css_class("sidebar")
+        sidebar.set_hexpand(False)
 
         heading = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         heading.add_css_class("section-heading")
@@ -127,11 +134,8 @@ class VisualizeWindow(Gtk.ApplicationWindow):
         note.set_valign(Gtk.Align.END)
         note.set_vexpand(True)
         note.append(make_label("ABOUT THIS PREVIEW", "note-title", 0))
-        note.append(make_label(
-            "Connections and locations are synthetic. This preview does not inspect or change your network.",
-            "note-copy",
-            0,
-        ))
+        copy = make_label("Sample connections and locations.\nNetwork controls are simulated.", "note-copy")
+        note.append(copy)
         sidebar.append(note)
         return sidebar
 
@@ -163,7 +167,7 @@ class VisualizeWindow(Gtk.ApplicationWindow):
 
         footer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=14)
         footer.add_css_class("map-footer")
-        footer.append(make_label("↗  OUTBOUND TRAFFIC", "footer-label"))
+        footer.append(make_label("INCOMING + OUTGOING", "footer-label"))
         footer.append(make_label("·", "footer-separator"))
         footer.append(make_label("SELECT A SERVICE TO INSPECT", "footer-label"))
         column.append(footer)
@@ -285,9 +289,11 @@ class VisualizeWindow(Gtk.ApplicationWindow):
         self.service_state.remove_css_class("state-ended")
         if item["state"] != "Active":
             self.service_state.add_css_class("state-ended")
-        self.location_value.set_text(item["location"] + "  ·  approximate")
-        self.provider_value.set_text(item["provider"])
-        self.traffic_value.set_text(item["traffic"] + " current rate")
+        self.location_value.set_text(item["location"])
+        self.provider_value.set_text("Sample location · " + item["provider"].split(" · ")[-1])
+        active = item["state"] == "Active"
+        self.traffic_value.set_text(item["traffic"] if active else "0 B/s")
+        self.traffic_bar.set_fraction(0.62 if active else 0)
         self.sent_value.set_text("↑  " + item["sent"] + " sent")
         self.received_value.set_text("↓  " + item["received"] + " received")
 

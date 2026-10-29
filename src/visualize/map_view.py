@@ -37,7 +37,10 @@ class MapView(Gtk.DrawingArea):
         motion.connect("motion", self.handle_motion)
         self.add_controller(motion)
 
-        GLib.timeout_add(70, self.animate)
+        self.add_tick_callback(self.tick)
+
+    def tick(self, _widget, _clock):
+        return self.animate()
 
     def animate(self):
         self.phase = (self.phase + 0.012) % 1.0
@@ -49,7 +52,7 @@ class MapView(Gtk.DrawingArea):
         return width * (0.08 + x * 0.84), height * (0.08 + y * 0.84)
 
     @staticmethod
-    def text(cr, value, x, y, size=11, color=WHITE, bold=False):
+    def text(cr, value, x, y, size=12, color=WHITE, bold=False):
         cr.select_font_face(
             "Inter" if bold else "Sans",
             0,
@@ -156,8 +159,8 @@ class MapView(Gtk.DrawingArea):
         cr.stroke()
 
         label = connection["domain"]
-        self.text(cr, label, x + 14, y - 9, 10, WHITE if selected else MUTED, selected)
-        self.text(cr, connection["traffic"], x + 14, y + 7, 9, CYAN, False)
+        self.text(cr, label, x + 14, y - 9, 12, WHITE if selected else MUTED, selected)
+        self.text(cr, connection["traffic"], x + 14, y + 10, 10, CYAN, False)
 
     def draw_system(self, cr, point):
         x, y = point

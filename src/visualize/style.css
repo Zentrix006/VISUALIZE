@@ -329,3 +329,33 @@ window,
   margin-top: 8px;
   letter-spacing: 0.2px;
 }
+
+/* v1: readable typography, restrained surfaces, consistent spacing. */
+.topbar { min-height: 58px; }
+.brand-mark { padding: 2px 5px; }
+.brand-name { font-size: 15px; }
+.brand-caption, .section-subtitle, .action-note { font-size: 11px; letter-spacing: 0; }
+.status-text, .legend-label, .footer-label { font-size: 10px; letter-spacing: 0.3px; }
+.section-title, .detail-section-title, .note-title { font-size: 11px; letter-spacing: 0.8px; }
+.connection-name { font-size: 13px; }
+.connection-domain { font-size: 11px; }
+.connection-row { min-height: 48px; padding: 8px 10px; }
+.note-copy { font-size: 11px; }
+.map-title { font-size: 20px; letter-spacing: 0; }
+.map-subtitle { font-size: 12px; }
+.map-column { padding: 18px 22px 10px; }
+.service-name { font-size: 20px; }
+.service-domain { font-size: 12px; }
+.location-value { font-size: 13px; }
+.detail-muted, .detail-key, .detail-value { font-size: 12px; }
+.detail-row { min-height: 34px; }
+.traffic-value { font-size: 24px; }
+.simulate-button { font-size: 12px; }
+.rail-button:disabled { opacity: 0.3; }
+.compact-title { font-size: 24px; font-weight: 750; }
+.compact-subtitle { font-size: 12px; color: #91a5b2; }
+.compact-row { padding: 12px; background: #121e28; border: 1px solid #243440; border-radius: 10px; }
+.compact-row:hover { background: #192d39; border-color: #3b687e; }
+.rate { font-size: 13px; font-weight: 700; color: #70d3f7; }
+.expand-button { min-height: 44px; background: #245b73; color: #ecfaff; border: 1px solid #3c7d96; border-radius: 10px; font-weight: 700; }
+.expand-button:hover { background: #2d6e89; }
