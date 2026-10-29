@@ -4,7 +4,7 @@
 
 ### See what your system is connected to.
 
-**A Linux desktop project for exploring network connections visually, with the long-term goal of managing selected connections from the same view.**
+**A Linux desktop project for visualizing the system's live outbound internet connections, with the long-term goal of managing selected connections from the same view.**
 
 ![Work in progress](https://img.shields.io/badge/status-work%20in%20progress-f0ad4e?style=for-the-badge)
 ![Linux](https://img.shields.io/badge/target-Linux-5577cc?style=for-the-badge&logo=linux&logoColor=white)
@@ -19,9 +19,9 @@ We’re researching the problem and shaping the first prototype. **There’s no 
 
 ## The idea
 
-Network activity can be difficult to understand when it is spread across process lists and command-line tools. VISUALIZE aims to bring that activity into one approachable desktop view, helping people explore what their Linux system is connected to.
+Network activity can be difficult to understand when it is spread across process lists and command-line tools. VISUALIZE aims to bring that activity into one approachable desktop view, with the Linux system at the center of a live connection map.
 
-The intended direction includes showing connection details and, in a future version, letting a user deliberately disconnect selected activity. The exact meaning and scope of “disconnect” is still being researched.
+Dynamic links represent connections initiated by the system to remote internet services. Selecting a service node should reveal details about that service and its location. In a future version, users may be able to manage selected connections from the map; the exact meaning and scope of “disconnect” is still being researched.
 
 ## Project status
 
@@ -32,7 +32,7 @@ The intended direction includes showing connection details and, in a future vers
 | Read-only connection view | Planned |
 | Carefully scoped connection controls | Planned |
 
-Follow the [research plan](docs/RESEARCH_PLAN.md), [roadmap](docs/ROADMAP.md), and [initial findings](docs/research/INITIAL_FINDINGS.md).
+Follow the [research plan](docs/RESEARCH_PLAN.md), [roadmap](docs/ROADMAP.md), and [initial findings](docs/research/INITIAL_FINDINGS.md). Inbound connections may be considered separately; they are not part of the currently described first view.
 
 ## Product principles
 
