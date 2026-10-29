@@ -11,7 +11,7 @@
 
 ## 🚧 Work is underway — coming soon
 
-We’re researching the problem and shaping the first prototype. **There’s no app or download yet.** We’ll share a preview once the scope and visual approach are ready.
+We’re researching the problem and building the first GTK4 prototype. **There’s no packaged download yet.** The current preview uses synthetic data and does not inspect or change your network.
 
 </div>
 
@@ -28,7 +28,7 @@ Dynamic links represent connections initiated by the system to remote internet s
 | Stage | Status |
 | --- | --- |
 | Research and product scope | **In progress** |
-| Visual prototype | Next |
+| GTK4 visual prototype | **In progress** |
 | Read-only connection view | Planned |
 | Carefully scoped connection controls | Planned |
 
@@ -59,6 +59,22 @@ Work proceeds through evidence-backed stages. Each stage should document finding
 ## Follow along
 
 Star or watch the repository for updates. **VISUALIZE is coming soon.**
+
+## Run the source prototype
+
+The prototype requires Linux, Python 3, GTK 4, PyGObject, and PyCairo. On Debian or Ubuntu, install the system packages first:
+
+```sh
+sudo apt install python3 python3-gi python3-cairo gir1.2-gtk-4.0
+```
+
+Then run it from the repository root:
+
+```sh
+PYTHONPATH=src python3 -m visualize
+```
+
+All displayed connections, traffic values, and locations are sample data. The **Simulate disconnect** button only changes the preview state.
 
 ---
 

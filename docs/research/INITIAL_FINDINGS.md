@@ -6,9 +6,19 @@
 ## Confirmed direction
 
 - Linux is the intended initial platform.
-- The project is intended to make a system's internet/network connections visible through a visual interface.
+- The map should keep the local system at the center.
+- Dynamic links should represent internet connections initiated by the local system.
+- Remote service nodes should reveal service details and location when selected.
 - The longer-term goal includes a way to disconnect selected activity through that interface.
 - Research and documentation should precede implementation.
+
+## Visual direction
+
+The supplied reference image establishes a dark, high-contrast network map with a central hub, visibly active links, endpoint nodes, and a compact status panel. For this project, the central hub is the user's Linux system; remote nodes represent services reached by the system. The image is a style and interaction reference, not a literal network topology specification.
+
+## Prototype status
+
+The first source prototype uses Python with GTK4 and synthetic connection data. It demonstrates the dark map, selectable service nodes, a service-detail panel, approximate location labels, and a simulated disconnect action. It does not read system connections, resolve live service locations, or change network behavior.
 
 ## Repository baseline
 
@@ -18,10 +28,11 @@
 
 ## Not yet established
 
-- Whether “connections” means sockets, listening services, network flows, or another unit.
-- Whether the first view is inbound-only or includes inbound and outbound activity.
+- Which connection types, protocols, and lifetimes should appear in the first view.
+- Whether inbound connections belong in a later view or release.
+- How a remote endpoint should be resolved to a recognizable service and location, and how uncertainty should be shown.
 - Whether a disconnect action targets one socket, an application, a service, or a wider network control.
-- Which users, distributions, desktop environments, and UI toolkit are the first target.
+- Which users, distributions, and desktop environments are the first target.
 - How any future collection or control should handle permissions, privacy, and recovery.
 
 ## Next research steps

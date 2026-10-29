@@ -19,7 +19,7 @@ This roadmap is provisional. Stages are gated by research findings; dates and im
 
 ## Stage 2 — interaction prototype
 
-- [ ] Create a visual prototype using synthetic data.
+- [x] Create a GTK4 visual prototype using synthetic data.
 - [ ] Review connection discovery, detail, filtering, and accessibility.
 - [ ] Validate whether the visual model communicates state and direction.
 

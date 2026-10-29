@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "visualize-network-map"
+version = "0.1.0"
+description = "A GTK4 visual map prototype for Linux network connections"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "PyGObject>=3.42",
+  "pycairo>=1.20",
+]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: X11 Applications :: GTK",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+]
+
+[project.scripts]
+visualize = "visualize.app:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+visualize = ["style.css"]
